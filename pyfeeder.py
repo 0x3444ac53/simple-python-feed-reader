@@ -1,19 +1,21 @@
 #!/usr/bin/python3
 import feedparser
 import os
-#feed = feedparser.parse('https://fivethirtyeight.com/all/feed')
-#feed = feedparser.parse('http://feeds.feedburner.com/linuxjournalcom')
+# feed = feedparser.parse('https://fivethirtyeight.com/all/feed')
+# feed = feedparser.parse('http://feeds.feedburner.com/linuxjournalcom')
 feeds = {
-        'Linux Master Race':'http://www.reddit.com/r/linuxmasterrace/.rss',
-        'Linux Journal':'http://feeds.feedburner.com/linuxjournalcom',
-        'Five Thirty Eight':'http://fivethirtyeight.com/all/feed',
-        'BBC News':'https://feeds.bbci.co.uk/news/rss.xml?edition=us',
-        'Unix Porn':'https://www.reddit.com/r/unixporn/.rss'
-        }
+    'Linux Master Race': 'http://www.reddit.com/r/linuxmasterrace/.rss',
+    'Linux Journal': 'http://feeds.feedburner.com/linuxjournalcom',
+    'Five Thirty Eight': 'http://fivethirtyeight.com/all/feed',
+    'BBC News': 'https://feeds.bbci.co.uk/news/rss.xml?edition=us',
+    'Unix Porn': 'https://www.reddit.com/r/unixporn/.rss'
+}
+
+
 def feed_menu():
     feed_list = list(feeds.keys())
     for i in feed_list:
-        print(str(feed_list.index(i))+") "+ i)
+        print(str(feed_list.index(i)) + ") " + i)
     feed_select = input('PICK FEED>>>  ')
     feed = feedparser.parse(feeds[feed_list[int(feed_select)]])
 
@@ -23,29 +25,31 @@ def feed_menu():
 
     mainmenu(feed)
 
+
 def mainmenu(feed):
     count = 0
     for i in feed['entries']:
-        toprint = str(count)+') '+i['title']
+        toprint = str(count) + ') ' + i['title']
 
         if i['read'] == 0:
-            print(toprint+' [UNREAD)')
+            print(toprint + ' [UNREAD)')
         else:
             print(toprint)
-        count += 1 
+        count += 1
     inputt = input("ARTICLE NUMBER>>>>  ")
     if inputt == 'b':
-        feed_menu()    
-    else:            
+        feed_menu()
+    else:
         read(feed, int(inputt))
     os.system('clear')
+
 
 def read(feed, index):
     os.system('clear')
     title = feed['entries'][index]['title']
-    print('Currently Reading\n'+title)
-    dir_path = os.path.dirname(os.path.realpath(__file__)) 
-    with open(dir_path+'/.reading.html', 'w') as f:
+    print('Currently Reading\n' + title)
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    with open(dir_path + '/.reading.html', 'w') as f:
         f.truncate()
         f.write("""
             <html lang="en">
@@ -60,16 +64,17 @@ def read(feed, index):
         """.format(title, title))
         try:
             f.write(feed['entries'][index]['content'][0]['value'])
-        except:
-            f.write(feed['entries'][index]['summary']) 
+        except KeyError:
+            f.write(feed['entries'][index]['summary'])
         f.write("""
         <p><a href='{}'>Probably Fulll article</a></p>
 </body>
 </div>
 </html>
-        """.format(feed['entries'][index]['links'][0]['href'])) 
+        """.format(feed['entries'][index]['links'][0]['href']))
     feed['entries'][index]['read'] = 1
-    os.system('w3m ' + dir_path+ "/.reading.html")
+    os.system('w3m ' + dir_path + "/.reading.html")
     mainmenu(feed)
+
 
 feed_menu()
