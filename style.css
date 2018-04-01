@@ -1,0 +1,22 @@
+html {
+	font-family: "Share Tech Mono";
+  	background-color: #DCD0C0;
+	color: #373737;
+	padding: 0;
+  	background-size: cover;
+	margin: 10%;
+	padding-right: 25%;
+	font-size: 20px;
+}
+h1.title {
+	font-size: 40px;
+}
+a {
+    color: #000000;
+}
+ul.alive {
+	padding-right: 45%;
+}
+.section {
+	
+}
