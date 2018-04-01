@@ -1,11 +1,14 @@
+#!/usr/bin/python3
 import feedparser
 import os
 #feed = feedparser.parse('https://fivethirtyeight.com/all/feed')
 #feed = feedparser.parse('http://feeds.feedburner.com/linuxjournalcom')
 feeds = {
+        'Linux Master Race':'http://www.reddit.com/r/linuxmasterrace/.rss',
         'Linux Journal':'http://feeds.feedburner.com/linuxjournalcom',
         'Five Thirty Eight':'http://fivethirtyeight.com/all/feed',
-        'BBC News':'https://feeds.bbci.co.uk/news/rss.xml?edition=us'
+        'BBC News':'https://feeds.bbci.co.uk/news/rss.xml?edition=us',
+        'Unix Porn':'https://www.reddit.com/r/unixporn/.rss'
         }
 def feed_menu():
     feed_list = list(feeds.keys())
@@ -25,11 +28,10 @@ def mainmenu(feed):
     for i in feed['entries']:
         toprint = str(count)+') '+i['title']
 
-#        if i['read'] == 0:
-#            print(toprint+' [UNREAD)')
-#        else:
-#           print(toprint)
-        print(toprint)
+        if i['read'] == 0:
+            print(toprint+' [UNREAD)')
+        else:
+            print(toprint)
         count += 1 
     inputt = input("ARTICLE NUMBER>>>>  ")
     if inputt == 'b':
