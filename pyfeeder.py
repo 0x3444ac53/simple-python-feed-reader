@@ -8,8 +8,8 @@ feeds = {
     'Linux Journal': 'http://feeds.feedburner.com/linuxjournalcom',
     'Five Thirty Eight': 'http://fivethirtyeight.com/all/feed',
     'BBC News': 'https://feeds.bbci.co.uk/news/rss.xml?edition=us',
-    'Unix Porn': 'https://www.reddit.com/r/unixporn/.rss'
-}
+    'Unix Porn': 'https://www.reddit.com/r/unixporn/.rss',
+    'Hacker News': 'https://www.freefullrss.com/feed.php?url=https%3A%2F%2Fnews.ycombinator.com%2Frss&max=10&links=preserve&exc=&submit=Create+Full+Text+RSS'}
 
 
 def feed_menu():
@@ -73,7 +73,7 @@ def read(feed, index):
 </html>
         """.format(feed['entries'][index]['links'][0]['href']))
     feed['entries'][index]['read'] = 1
-    os.system('w3m ' + dir_path + "/.reading.html")
+    os.system('firefox ' + dir_path + "/.reading.html")
     mainmenu(feed)
 
 
