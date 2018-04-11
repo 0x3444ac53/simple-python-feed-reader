@@ -1,18 +1,22 @@
 #!/usr/bin/python3
 import feedparser
 import os
+
 # feed = feedparser.parse('https://fivethirtyeight.com/all/feed')
 # feed = feedparser.parse('http://feeds.feedburner.com/linuxjournalcom')
-feeds = {
-    'Linux Master Race': 'http://www.reddit.com/r/linuxmasterrace/.rss',
-    'Linux Journal': 'http://feeds.feedburner.com/linuxjournalcom',
-    'Five Thirty Eight': 'http://fivethirtyeight.com/all/feed',
-    'BBC News': 'https://feeds.bbci.co.uk/news/rss.xml?edition=us',
-    'Unix Porn': 'https://www.reddit.com/r/unixporn/.rss',
-    'Hacker News': 'https://www.freefullrss.com/feed.php?url=https%3A%2F%2Fnews.ycombinator.com%2Frss&max=10&links=preserve&exc=&submit=Create+Full+Text+RSS'}
 
 
-def feed_menu():
+def start():
+    config = {}
+    with open(os.environ['HOME'] + '/.config/pyfeeder/config') as f:
+        for i in f.readlines():
+            ob = i.split(';;')
+            config[ob[0].strip('\n').strip(',').strip(' ')] = ob[1].strip('\n').strip(',').strip(' ')
+    print(config)
+    feed_menu(config)
+
+
+def feed_menu(feeds):
     feed_list = list(feeds.keys())
     for i in feed_list:
         print(str(feed_list.index(i)) + ") " + i)
@@ -73,8 +77,8 @@ def read(feed, index):
 </html>
         """.format(feed['entries'][index]['links'][0]['href']))
     feed['entries'][index]['read'] = 1
-    os.system('firefox ' + dir_path + "/.reading.html")
+    os.system('w3m ' + dir_path + "/.reading.html")
     mainmenu(feed)
 
 
-feed_menu()
+start()
