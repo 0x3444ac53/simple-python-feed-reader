@@ -1,10 +1,11 @@
-Feeds can be added by opening the pyfeeder.py file, and adding the url and title to the dictionary like this 
+Pyfeeder is a simple python3 rss feed reader for the terminal. 
+Configure by adding feeds in $HOME/.config/pyfeeder/config
+like this:
 
-feeds = {
-	'Feed title':'http://www.someurl.com',
-}
+feed_name ;; http://feed-url
 
-Make sure you put a comma after the url
+the browser can be set by doing:
 
-the deafault broswer is w3m, but you can change that by editing it in the read function. 
-I'll probably add a better way to configure this in the future. 
+BROWSER ;; w3m
+
+or BROWSER ;; firefox

@@ -4,14 +4,23 @@ import os
 
 # feed = feedparser.parse('https://fivethirtyeight.com/all/feed')
 # feed = feedparser.parse('http://feeds.feedburner.com/linuxjournalcom')
+config_dir = os.environ['HOME'] + '/.config/pyfeeder/'
+browser = 'w3m'
 
 
 def start():
     config = {}
-    with open(os.environ['HOME'] + '/.config/pyfeeder/config') as f:
+    global browser
+    with open(config_dir + 'config') as f:
         for i in f.readlines():
             ob = i.split(';;')
-            config[ob[0].strip('\n').strip(',').strip(' ')] = ob[1].strip('\n').strip(',').strip(' ')
+            if ob[0] == 'BROWSER':
+                global browser
+                browser = ob[1].strip(',').strip('\n')
+                print(browser)
+            config[ob[0].strip('\n').strip(',').strip(' ')] = ob[1].strip(
+                '\n').strip(',').strip(' ')
+
     print(config)
     feed_menu(config)
 
@@ -77,7 +86,7 @@ def read(feed, index):
 </html>
         """.format(feed['entries'][index]['links'][0]['href']))
     feed['entries'][index]['read'] = 1
-    os.system('w3m ' + dir_path + "/.reading.html")
+    os.system(browser + ' ' + dir_path + "/.reading.html")
     mainmenu(feed)
 
 
